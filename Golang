@@ -1,0 +1,285 @@
+package readfile
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+	"testing"
+
+	"github.com/stretchr/testify/require"
+	"github.com/samber/lo"
+
+)
+
+func TestFuck(t *testing.T) {
+	content, err := Fuck("C:\\Users\\$NAME$\\Documents\\Code\\test-go\\fuck.json")
+	require.NoError(t, err)
+	fmt.Println(content)
+}
+
+func TestVariables(t *testing.T) {
+	{
+		var a int
+		fmt.Println(a)
+
+		a = 100
+		fmt.Println(a)
+	}
+
+	{
+		a := 0
+		fmt.Println(a)
+
+		a = 100
+		fmt.Println(a)
+	}
+}
+
+func TestTypesInit(t *testing.T) {
+	var someUint uint
+	var someInt int
+	var someString string
+	var someFloat32 float32
+
+	var someUintPointer *uint
+	var someIntPointer *int
+	var someStringPointer *string
+	var someFloat32Pointer *float32
+	var someArray []int
+	var someMap map[string]int
+
+	fmt.Println(
+		someInt,
+		someUint,
+		someString,
+		someFloat32,
+	)
+	fmt.Println(
+		someIntPointer,
+		someUintPointer,
+		someStringPointer,
+		someFloat32Pointer,
+		someArray,
+		someMap,
+	)
+}
+
+func TestTypesAssignment(t *testing.T) {
+	var someUint uint
+	var someInt int
+	var someString string
+	var someFloat32 float32
+
+	someUint = 10000
+	someInt = -10000
+	someString = "fuck"
+	someFloat32 = 100.002
+
+	var someUintPointer *uint
+	var someIntPointer *int
+	var someStringPointer *string
+	var someFloat32Pointer *float32
+	var someArray []int
+	var someMap map[string]int
+
+	tempUint := uint(10000)
+	someUintPointer = &tempUint
+
+	tempInt := -10000
+	someIntPointer = &tempInt
+
+	tempString := "fuck pointer"
+	someStringPointer = &tempString
+
+	tempFloat32 := float32(100.002)
+	someFloat32Pointer = &tempFloat32
+
+	someArray = []int{
+		1,
+		2,
+		3,
+	}
+
+	someMap = map[string]int{
+		"a": 1,
+		"b": 2,
+	}
+
+	fmt.Println(
+		someInt,
+		someUint,
+		someString,
+		someFloat32,
+	)
+
+	fmt.Println(
+		*someIntPointer,
+		*someUintPointer,
+		*someStringPointer,
+		*someFloat32Pointer,
+		someArray,
+		someMap,
+	)
+}
+
+func TestPointer(t *testing.T) {
+	original := 10                     // <- int
+	originalPointer := &original       // <- *int
+	backToOriginal := *originalPointer // <- int
+
+	fmt.Println(original, originalPointer, backToOriginal)
+
+	originalWithNonZeroValue := new(int)
+	fmt.Println(originalWithNonZeroValue, *originalWithNonZeroValue)
+}
+
+func TestArray(t *testing.T) {
+	var someArray []int
+	fmt.Println(someArray)
+	fmt.Println(someArray == nil)
+
+	someArrayWithNonZeroValue := make([]int, 0)
+	fmt.Println(someArrayWithNonZeroValue)
+	fmt.Println(someArrayWithNonZeroValue == nil)
+
+	someArrayWithNonZeroValue2 := []int{}
+	fmt.Println(someArrayWithNonZeroValue2)
+	fmt.Println(someArrayWithNonZeroValue2 == nil)
+}
+
+func TestMap(t *testing.T) {
+	var someMap map[string]int
+	fmt.Println(someMap)
+	fmt.Println(someMap == nil)
+
+	someMapWithNonZeroValue := make(map[string]int)
+	fmt.Println(someMapWithNonZeroValue)
+	fmt.Println(someMapWithNonZeroValue == nil)
+
+	someMapWithNonZeroValue2 := map[string]int{}
+	fmt.Println(someMapWithNonZeroValue2)
+	fmt.Println(someMapWithNonZeroValue2 == nil)
+}
+
+func TestStringOperation(t *testing.T) {
+	s := "fuck"
+	s = s + " you!"
+	fmt.Println(s)
+	fmt.Println(strings.Contains(s, "fuck"))
+
+	sArray := []string{"fuck", "you", "!"}
+	fmt.Println(strings.Join(sArray, " "))
+}
+
+func TestNumberOperation(t *testing.T) {
+	sInt := "114514"
+	i, err := strconv.ParseInt(sInt, 10, 64)
+	require.NoError(t, err)
+	fmt.Println(i + 1000)
+
+	sIntConverted := strconv.FormatInt(i, 10)
+	fmt.Println(sIntConverted + "!")
+
+	fmt.Printf("%d!\n", i)
+}
+
+type SomeCustomType struct {
+	SomeValue string
+}
+
+func (t SomeCustomType) String() string {
+	return "wow, this is t!" + " " + t.SomeValue
+}
+
+func TestStringer(t *testing.T) {
+	v := SomeCustomType{}
+	fmt.Println(v)
+	fmt.Printf("%s\n", v)
+	fmt.Println(v.String())
+	fmt.Printf("%#v\n", v)
+	fmt.Printf("%T\n", v)
+	fmt.Printf("%T\n", 1000)
+	fmt.Printf("%T\n", []int{1000})
+	fmt.Printf("%T\n", map[string]int{"a": 1})
+}
+
+func TestTriangle(t *testing.T) {
+	fmt.Println("    *")
+	fmt.Println("   * *")
+	fmt.Println("  * * *")
+	fmt.Println(" * * * *")
+	fmt.Println("* * * * *")
+	fmt.Println("   | |")
+}
+
+func TestNumber(t *testing.T) {
+	height := 5 // 定义三角形的高度
+
+    for i := 1; i <= height; i++ {
+        // 输出空格
+        for j := 1; j <= height-i; j++ {
+            fmt.Print(" ")
+        }
+        // 输出星号
+        for k := 1; k <= 2*i-1; k++ {
+            fmt.Print("*")
+        }
+        fmt.Println()
+	}
+}
+
+func TestNewmodi(t* testing.T){
+	result := lo.Ternary(true, "Ben Ben Cat & Little Sound"," ")
+	fmt.Println(result)
+}
+
+func TestProject(t *testing.T){
+	for x := 1; x <= 9; x++{
+		for y := 1; y <=9; y++{
+		fmt.Printf("%d * %d = %d\n",x,y,x*y)
+		}
+	}
+}
+
+
+type Games struct {
+	title string
+	company string
+	typeStr string
+	price int
+ }
+
+func TestGame(t *testing.T){
+	var Game1 Games       
+	var Game2 Games
+	var Game3 Games         
+ 
+	/* game 1 */
+	Game1.title = "Call Of Duty"
+	Game1.company = "Activision"
+	Game1.typeStr = "FPS"
+	Game1.price = 60
+ 
+	/* game2  */
+	Game2.title = "Football Manager"
+	Game2.company = "Sega"
+	Game2.typeStr = "CMS"
+	Game2.price = 29
+
+	/* game3 */
+	Game3.title = "Genshin Impact"
+	Game3.company = "MiHoYo"
+	Game3.typeStr = "Gacha"
+	Game3.price = 0
+
+	printGame(&Game1)
+	printGame(&Game2)
+	printGame(&Game3)
+}
+
+func printGame( game *Games ) {
+	fmt.Printf( "Game title : %s\n", game.title)
+	fmt.Printf( "Game company : %s\n", game.company)
+	fmt.Printf( "Game type : %s\n", game.typeStr)
+	fmt.Printf( "Game price : %d\n", game.price)
+}
